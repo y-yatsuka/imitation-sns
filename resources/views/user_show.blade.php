@@ -1,7 +1,12 @@
 @extends('layouts.app')
-
 @section('content')
 <script src="{{ asset('js/followFunction.js')}}"></script>
+
+@if($user->image!=null)
+<img src="{{ asset('storage/profile_images/'.$user->id.'.jpeg') }}" class="round-image large" />
+@else
+<img src="{{ asset('images/profile_icon.png') }}" class="round-image large" />
+@endif
 <h1>{{ $user->name }}</h1>
 <div class="well">
   <h3>自己紹介</h3>

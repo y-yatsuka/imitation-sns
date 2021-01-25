@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddColumUsersTable extends Migration
+class AddImageToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class AddColumUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-              $table->binary('follower')->nullable();
-              $table->binary('follow')->nullable();
+            $table->string('image')->nullable();
         });
     }
 

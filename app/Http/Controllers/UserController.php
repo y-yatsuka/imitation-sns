@@ -13,9 +13,6 @@ class UserController extends Controller{
   }
 
 
-
-
-
   public function show($user_id){
     $user=User::find($user_id);
     $user_articles= Article::where('user_id',$user_id)->orderBy('id','desc')->get();
@@ -51,23 +48,27 @@ class UserController extends Controller{
 
 
 
-
-
-
   public function edit(){
     $own=\Auth::user();
     return view('user_edit', ['own' => $own]);
   }
 
 
-
-
-
-
   public function update(Request $request){
     $own= \Auth::user();
+
+    $validateData=$request->validate([
+      'name' => 'required|max:255',
+      'introduction' => 'max:255',
+      'image' => 'mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
     $own->name=$request->input('name');
     $own->introduction=$request->input('introduction');
+    if($request->image!=null){
+      $request->image->storeAs('/public/profile_images', $own->id.'.jpeg');
+      $own->image=$own->id.'.jpeg';
+    }
     $own->save();
     return redirect()->route('user.detail',['user_id'=> $own->id]);
   }

@@ -69,6 +69,7 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
             'introduction' => '',
             'follow' => serialize(array()),
+            'follower' => serialize(array()),
         ]);
     }
 }

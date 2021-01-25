@@ -14,7 +14,7 @@ class AddColumGoodArticleTable extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->binary('good');
+            $table->binary('good')->nullable();
         });
     }
 

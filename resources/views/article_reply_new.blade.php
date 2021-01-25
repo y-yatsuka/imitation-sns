@@ -18,6 +18,6 @@
     </div>
   @endif
   {{ Form::submit('投稿',['class' => 'btn btn-outline-primary']) }}
-  <a class="btn btn-outline-primary" href=javascript:history.back()>戻る</a>
 {{ Form::close()}}
+<a class="btn btn-outline-primary" href=javascript:history.back()>戻る</a>
 @endsection

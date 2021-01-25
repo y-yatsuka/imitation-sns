@@ -1,16 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-  {{ Form::model($own, ['route' => ['user.update']]) }}
+@if($errors->any())
+<div class="alert alert-danger">
+  <ul>
+    @foreach($errors->all() as $error)
+    <li>
+    {{ $error }}
+    </li>
+    @endforeach
+  </ul>
+</div>
+@endif
+  {{ Form::model($own, ['route' => 'user.update','files' => true]) }}
     <div class="form-group">
-      {{Form::label('name','ユーザー名')}}
+      {{ Form::label('プロフィール画像')}}
       <br />
-      {{ Form::text('name',null) }}
+      {{ Form::file('image') }}
     </div>
     <div class="form-group">
-      {{ Form::label('introduction')}}
+      {{Form::label('name','ユーザー名') }}
       <br />
-      {!! Form::textarea('introduction',null) !!}
+      {{ Form::text('name',null,['class' => 'form-control']) }}
+    </div>
+    <div class="form-group">
+      {{ Form::label('自己紹介')}}
+      <br />
+      {!! Form::textarea('introduction',null,['class' => 'form-control']) !!}
     </div>
     <div class="form-group">
       {{ Form::submit('編集', ['class' => 'btn btn-outline-primary'])}}

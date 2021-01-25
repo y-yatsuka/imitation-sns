@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFollowingsTable extends Migration
+class AddImageToArticlesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateFollowingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('followings', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->binary('follow_ids');
-            $table->integer('user_id');
+        Schema::table('articles', function (Blueprint $table) {
+            $table->string('image')->nullable();
         });
     }
 
@@ -27,6 +25,8 @@ class CreateFollowingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('followings');
+        Schema::table('articles', function (Blueprint $table) {
+            //
+        });
     }
 }

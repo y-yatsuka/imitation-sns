@@ -44,8 +44,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-      $message='';
-      return view('new',['message' => $message]);
+      return view('new');
     }
 
     /**
@@ -57,18 +56,23 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         $user= \Auth::user();
-        $article= new Article;
-        if($request->input('content')){
-          $article->content= $request->input('content');
-          $article->user_id=$user->id;
-          $article->good=serialize(array());
-          $article->save();
 
-          return redirect()->route('article.list');
-        }else{
-          $message='投稿内容を記入してください';
-          return view('new',['message' => $message]);
+        $validateData=$request->validate([
+          'content' => 'required|max:255',
+          'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $article= new Article;
+        $article->content= $request->input('content');
+        $article->user_id=$user->id;
+        $article->good=serialize(array());
+        if($request->hasFile('image')){
+          $request->file('image')->store('/public/article_images');
+          $article->image=$request->file('image')->hashName();
         }
+        $article->save();
+
+        return redirect()->route('article.list');
 
     }
 
@@ -173,5 +177,11 @@ class ArticleController extends Controller
       $articles=Article::where('content','LIKE','%'.$keyword.'%')->get();
 
       return view('search',['similars' => $similars ,'articles' => $articles]);
+    }
+
+    public function image($id){
+      $article=Article::find($id);
+
+      return view('article_image',['article' => $article]);
     }
 }

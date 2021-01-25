@@ -19,8 +19,10 @@ class ReplyController extends Controller
 
 
       //返信先がarticleかreplyか
+      $flag=0;
       if($reply->article_id){
         $parent=Article::find($reply->article_id);
+        $flag=1;
       }else{
         $parent=Reply::find($reply->parent);
       }
@@ -39,7 +41,7 @@ class ReplyController extends Controller
       }
 
       return view('reply_show',['reply' => $reply, 'children' => $children, 'login_id' => $login_id,
-                                 'goodCount' => $goodCount, 'favorite' => $favorite ,'parent' => $parent]);
+                                 'goodCount' => $goodCount, 'favorite' => $favorite ,'parent' => $parent ,'flag' => $flag]);
     }
 
 
