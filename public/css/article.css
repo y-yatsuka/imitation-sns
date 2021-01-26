@@ -66,3 +66,13 @@
   width: 70px;
   height: 70px;
 }
+
+.very-small{
+  width: 40px;
+  height: 40px;
+  margin:0;
+}
+
+.container{
+  margin-top: 50px;
+}
