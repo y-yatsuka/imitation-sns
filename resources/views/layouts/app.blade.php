@@ -24,20 +24,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/article.css')}}" rel="stylesheet" />
-    <style>
-      /* スマホ横画面用 */
-      @media screen and (max-width: 480px) {
-        .container{padding:0}
-        div[class^="col-"] {padding:0}
-        .row {margin:0;}
-      }
-      /* スマホ縦画面用 */
-      @media screen and (max-width: 320px) {
-        .container{padding:0}
-        div[class^="col-"] {padding:0}
-        .row {margin:0;}
-      }
-    </style>
+  
 </head>
 <body>
     <div id="app">

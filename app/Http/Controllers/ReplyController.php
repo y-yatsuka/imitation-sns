@@ -64,4 +64,18 @@ class ReplyController extends Controller
 
       return redirect()->route('reply.detail',['reply_id' => $reply->id]);
     }
+
+    public function destroy($reply_id){
+      $reply=Reply::find($reply_id);
+      if($reply->article_id){
+        $article_id=$reply->article_id;
+        $reply->delete();
+        return redirect()->route('article.detail',['id' => $article_id]);
+      }else{
+        $reply_id=$reply->parent;
+        $reply->delete();
+        return redirect()->route('reply.detail',['reply_id' => $reply_id]);
+      }
+
+    }
 }
