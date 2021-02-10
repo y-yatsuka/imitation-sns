@@ -24,8 +24,8 @@ Route::group(['middleware'=>['auth']],function(){
   Route::post('/article/good', 'Ajax\ContactController@goodFunction')->name('article.good');
   Route::post('/article/good/count', 'Ajax\ContactController@goodCount')->name('article.good.count');
   Route::post('/user/follow', 'Ajax\ContactController@followFunction')->name('user.follow');
-  Route::post('reply/good', 'Ajax\ContactController@replyGoodFunction')->name('reply.good');
-  Route::post('reply/good/count', 'Ajax\ContactController@replyGoodCount')->name('reply.good.count');
+  Route::post('/reply/good', 'Ajax\ContactController@replyGoodFunction')->name('reply.good');
+  Route::post('/reply/good/count', 'Ajax\ContactController@replyGoodCount')->name('reply.good.count');
 
   //Article
   Route::get('/articles', 'ArticleController@index')->name('article.list');
