@@ -4,7 +4,7 @@ $(document).ready(function () {
   $('#btn').click(function(){
     button=$('#btn');
     $.ajax({
-         url:'/user/follow',
+         url:'https://hamming-code.sakura.ne.jp/imitation-sns/public/user/follow',
          type:'POST',
          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
          data:{

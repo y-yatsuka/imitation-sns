@@ -4,7 +4,7 @@ $(document).ready(function () {
   $('#goodButton').click(function(){
     button=$('#goodButton');
     $.ajax({
-         url:'/article/good',
+         url:'https://hamming-code.sakura.ne.jp/imitation-sns/public/article/good',
          type:'POST',
          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
          data:{
@@ -33,7 +33,7 @@ $(document).ready(function () {
 //いいねの件数をリアルタイムで表示する関数
 function goodCount(){
   $.ajax({
-       url:'/article/good/count',
+       url:'https://hamming-code.sakura.ne.jp/imitation-sns/public/article/good/count',
        type:'POST',
        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
        data:{
