@@ -1,12 +1,8 @@
 
 @extends('layouts.app')
-<style>
-  
-</style>
 @section('content')
 
     @foreach ($articles as $article)
-
       <div class="parent">
         <a href="{{ route('user.detail',['user_id' => $article->user->id]) }}">
           @if($article->user->image!=null)
