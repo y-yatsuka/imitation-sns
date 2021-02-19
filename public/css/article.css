@@ -76,3 +76,27 @@
 .container{
   margin-top: 50px;
 }
+
+.article-show{
+  width:100%;
+  margin: 10px 20px;
+  padding:10px;
+  background-color: #eee;
+  border-radius: 10px;
+}
+.inner a{
+  text-decoration: none;
+  color:#000;
+}
+.small-image{
+  max-width: 100%;
+  width:250px;
+  height:165px;
+  margin:0 auto;
+}
+
+.small-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
