@@ -40,18 +40,23 @@ class ContactController extends Controller
       $own=\Auth::user();
       $article=Article::find($article_id);
 
-      $goods=unserialize($article->good);
-      if(isset($goods["$own->id"])){
+      $favorite = false;
+      foreach ($article->usersLiked()->get() as $user){
+          if($user->id == $own->id){
+              $favorite = true;
+              break;
+          }
+      }
+
+      if($favorite){
         //いいねしていたらいいねを取り消す
-        unset($goods["$own->id"]);
+        $article->usersLiked()->detach($own->id);
       }else{
         //いいねしていなかったらいいねする
-        $goods["$own->id"]=$own->id;
+        $article->usersLiked()->attach($own->id);
       }
-      $article->good=serialize($goods);
-      $article->save();
 
-      $goodCount=count($goods);
+      $goodCount=count($article->usersLiked()->get());
 
       return response()->json([
             'result' => $goodCount
@@ -63,7 +68,7 @@ class ContactController extends Controller
       $article_id=$request->input('article_id');
       $article=Article::find($article_id);
 
-      $goodCount=count(unserialize($article->good));
+      $goodCount = count($article->usersLiked()->get());
       return response()->json([
             'result' => $goodCount
       ]);

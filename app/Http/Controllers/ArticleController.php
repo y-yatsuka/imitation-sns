@@ -67,7 +67,6 @@ class ArticleController extends Controller
         $article= new Article;
         $article->content= $request->input('content');
         $article->user_id=$user->id;
-        $article->good=serialize(array());
         if($request->hasFile('image')){
           $request->file('image')->store('/public/article_images');
           $article->image=$request->file('image')->hashName();
@@ -87,23 +86,24 @@ class ArticleController extends Controller
     public function show($id)
     {
         $article = Article::find($id);
-        $own= \Auth::user();
-        $replies= Reply::where('article_id', $article->id)->get();
-        $goods=unserialize($article->good); //いいねしているユーザーのidの配列
+        $own = \Auth::user();
+        $replies = Reply::where('article_id', $article->id)->get();
+        $goodArticles = $article->usersLiked()->get();
 
-        $goodCount=count($goods); //いいねの数
+        $goodCount = count($goodArticles); //いいねの数
 
 
-        $favorite=-1; //いいねしているか否か
+        $favorite = false; //いいねしているか否か
         if($own){
-          if(isset($goods["$own->id"])){
-            $favorite=1;
-          }else{
-            $favorite=0;
+          foreach ($own->favoriteArticles()->get() as $article){
+              if($article->id == $id){
+                  $favorite = true;
+                  break;
+              }
           }
-          $login_id=$own->id;
+          $login_id = $own->id;
         }else{
-          $login_id='';
+          $login_id = null;
         }
 
         return view('show',['article' => $article, 'login_id' => $login_id,

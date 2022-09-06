@@ -11,4 +11,8 @@ class Article extends Model
     {
       return $this->belongsTo('App\User');
     }
+
+    public function usersLiked(){
+        return $this->belongsToMany('App\User', 'favorite', 'article_id', 'user_id')->withTimestamps();
+    }
 }
