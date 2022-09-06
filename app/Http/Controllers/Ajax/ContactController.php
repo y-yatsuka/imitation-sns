@@ -15,21 +15,18 @@ class ContactController extends Controller
       $own=\Auth::user();
       $user=User::find($user_id);
 
-      $follows=unserialize($own->follow); //自分がフォロー中のユーザーのid
-      $followers=unserialize($user->follower); //相手をフォローしているユーザーのid
-
-      if(isset($follows["$user_id"])){
-        unset($follows["$user_id"]);
-        unset($followers["$own->id"]);
-      }else{
-        $follows["$user_id"]=$user_id;
-        $followers["$own->id"]=$own->id;
+      $following = false;
+      foreach ($user->followers()->get() as $follower){
+          if($follower->id == $own->id) {
+              $following = true;
+              break;
+          }
       }
-
-      $own->follow=serialize($follows);
-      $own->save();
-      $user->follower=serialize($followers);
-      $user->save();
+      if($following){
+          $user->followers()->detach($own->id);
+      }else{
+          $user->followers()->attach($own->id);
+      }
 
       return response()->json([
             'result' => true

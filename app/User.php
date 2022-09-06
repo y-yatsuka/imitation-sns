@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id','name', 'email', 'password','introduction','follow','follower',
+        'id','name', 'email', 'password','introduction',
     ];
 
     /**
@@ -36,4 +36,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function articles(){
+        return $this->hasMany('App\Article');
+    }
+
+    public function followers(){
+        return $this->belongsToMany('App\User', 'follow', 'followee_id', 'follower_id')->withTimestamps();
+    }
+
+    public function followees(){
+        return $this->belongsToMany('App\User', 'follow', 'follower_id', 'followee_id')->withTimestamps();
+    }
 }

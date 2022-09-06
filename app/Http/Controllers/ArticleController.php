@@ -27,9 +27,11 @@ class ArticleController extends Controller
         if($own){
           //ログイン中ならばフォロー中のアカウントと自分の投稿のみを取り出す
           $name=$own->name;
-          $follows=unserialize($own->follow);
-          $follows["$own->id"]=$own->id;
-          $articles=Article::whereIn('user_id',$follows)->orderBy('id','desc')->get();
+          $displayUsers = [$own->id];
+          foreach($own->followees()->get() as $followee){
+              $displayUsers[] = $followee->id;
+          }
+          $articles=Article::whereIn('user_id',$displayUsers)->orderBy('id','desc')->get();
         }else{
           $articles=Article::orderBy('id','desc')->get();
         }
