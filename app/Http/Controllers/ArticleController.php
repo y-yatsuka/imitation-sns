@@ -31,7 +31,7 @@ class ArticleController extends Controller
           foreach($own->followees()->get() as $followee){
               $displayUsers[] = $followee->id;
           }
-          $articles=Article::whereIn('user_id',$displayUsers)->orderBy('id','desc')->get();
+          $articles=Article::whereIn('user_id',$displayUsers)->where('parent_id', null)->orderBy('id','desc')->get();
         }else{
           $articles=Article::orderBy('id','desc')->get();
         }
@@ -87,7 +87,7 @@ class ArticleController extends Controller
     {
         $article = Article::find($id);
         $own = \Auth::user();
-        $replies = Reply::where('article_id', $article->id)->get();
+        $replies = $article->replies()->get();
         $goodArticles = $article->usersLiked()->get();
 
         $goodCount = count($goodArticles); //いいねの数
@@ -108,7 +108,7 @@ class ArticleController extends Controller
 
         return view('show',['article' => $article, 'login_id' => $login_id,
                             'goodCount' => $goodCount, 'favorite' => $favorite,
-                            'replies' => $replies]);
+                            'replies' => $replies, 'parent' => $article->parent]);
     }
 
     /**
@@ -152,23 +152,32 @@ class ArticleController extends Controller
 
     public function replyNew($id)
     {
-      return view('article_reply_new',['article' => Article::find($id), 'message' => '']);
+      return view('reply_new',['parent' => Article::find($id)]);
     }
 
 
 
     public function replyStore(Request $request)
     {
-      $own=\Auth::user();
-      $reply= new Reply;
-      $reply->content=$request->input('content');
-      $reply->article_id=$request->input('id');
-      $reply->user_id=$own->id;
-      $reply->good=serialize(array());
-      $reply->save();
+        $own = \Auth::user();
 
+        $request->validate([
+            'content' => 'required|max:255',
+            'image' => 'mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'parent_id' => 'required'
+        ]);
 
-      return redirect()->route('article.detail',['id' => $reply->article_id]);
+        $article= new Article;
+        $article->content= $request->input('content');
+        $article->user_id=$own->id;
+        $article->parent_id = $request->input('parent_id');
+        if($request->hasFile('image')){
+            $request->file('image')->store('/public/article_images');
+            $article->image=$request->file('image')->hashName();
+        }
+        $article->save();
+
+        return redirect()->route('article.detail',['id' => $article->id]);
     }
 
 

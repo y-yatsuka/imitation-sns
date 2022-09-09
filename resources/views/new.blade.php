@@ -15,11 +15,9 @@
 
 {{ Form::open(['route' => 'article.store','files' => true]) }}
   <div class='form-group'>
-    {!! Form::textarea('content',null, ['class' => 'form-control', 'placeholder' => '今何をしていますか？','rows' => 7]) !!}
-  </div>
-  {{ Form::label('画像') }}
-  <div class='form-group'>
-    {{ Form::file('image') }}
+      {!! Form::textarea('content',null, ['class' => 'form-control', 'placeholder' => '今何をしていますか？','rows' => 7]) !!}
+      {{ Form::label('画像') }}
+      {{ Form::file('image') }}
   </div>
   {{ Form::submit('投稿',['class' => 'btn btn-outline-primary']) }}
   <a class="btn btn-outline-primary" href=javascript:history.back()>戻る</a>

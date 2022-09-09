@@ -22,11 +22,9 @@ Auth::routes();
   Route::post('/article/good', 'Ajax\ContactController@goodFunction')->name('article.good');
   Route::post('/article/good/count', 'Ajax\ContactController@goodCount')->name('article.good.count');
   Route::post('/user/follow', 'Ajax\ContactController@followFunction')->name('user.follow');
-  Route::post('/reply/good', 'Ajax\ContactController@replyGoodFunction')->name('reply.good');
-  Route::post('/reply/good/count', 'Ajax\ContactController@replyGoodCount')->name('reply.good.count');
 
 Route::group(['middleware'=>['auth']],function(){
-  
+
   //Article
   Route::get('/articles', 'ArticleController@index')->name('article.list');
   Route::get('/home','HomeController@index')->name('home');
@@ -36,9 +34,9 @@ Route::group(['middleware'=>['auth']],function(){
   Route::post('/article/update/{id}', 'ArticleController@update')->name('article.upadate');
   Route::get('/article/{id}', 'ArticleController@show')->name('article.detail');
   Route::delete('/article/{id}', 'ArticleController@destroy')->name('article.destroy');
-  Route::get('/article/reply/new/{id}', 'ArticleController@replyNew')->name('article.reply.new');
-  Route::post('/article/reply/store', 'ArticleController@replyStore')->name('article.reply.store');
   Route::get('/article/image/{id}', 'ArticleController@image')->name('article.image');
+  Route::get('/article/new/{parent_id}', 'ArticleController@replyNew')->name('article.reply.new');
+  Route::post('/article/reply', 'ArticleController@replyStore')->name('article.reply.store');
 
   //User
   Route::get('/user/edit', 'UserController@edit')->name('user.edit');
@@ -47,11 +45,6 @@ Route::group(['middleware'=>['auth']],function(){
   Route::get('/user/follower/list/{user_id}', 'UserController@followerList')->name('user.follower.list');
   Route::get('/user/{user_id}', 'UserController@show')->name('user.detail');
 
-  //Reply
-  Route::get('/reply/show/{reply_id}', 'ReplyController@show')->name('reply.detail');
-  Route::get('/reply/new/{reply_id}', 'ReplyController@create')->name('reply.new');
-  Route::post('/reply/store', 'ReplyController@store')->name('reply.store');
-  Route::delete('/reply/{reply_id}', 'ReplyController@destroy')->name('reply.destroy');
 
   Route::post('/search','ArticleController@search')->name('search');
 

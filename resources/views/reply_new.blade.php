@@ -1,23 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>{{ $reply->user->name }}</h1>
+@if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>
+                    {{ $error }}
+                </li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<h1>{{ $parent->user->name }}</h1>
 <p>
-  {!! nl2br(e($reply->content)) !!}
+  {!! nl2br(e($parent->content)) !!}
 </p>
 <br />
 <br />
-{{ Form::open(['route' => 'reply.store']) }}
+{{ Form::open(['route' => 'article.reply.store','files' => true]) }}
   <div class='form-group'>
-    {!! Form::textarea('content',null, ['class' => 'form-control', 'placeholder' => $reply->user->name.'さんへ返信', 'rows' => 7]) !!}
-    {{ Form::hidden('id', $reply->id)}}
+      {!! Form::textarea('content',null, ['class' => 'form-control', 'placeholder' => $parent->user->name.'さんへ返信', 'rows' => 7]) !!}
+      {{ Form::label('画像') }}
+      {{ Form::file('image') }}
+      {{ Form::hidden('parent_id', $parent->id) }}
   </div>
-  @if($message)
-    <div >
-      {{ $message }}
-    </div>
-  @endif
   {{ Form::submit('返信',['class' => 'btn btn-outline-primary']) }}
-  <a class="btn btn-outline-primary" href=javascript:history.back()>戻る</a>
 {{ Form::close()}}
+<a class="btn btn-outline-primary" href=javascript:history.back()>戻る</a>
 @endsection

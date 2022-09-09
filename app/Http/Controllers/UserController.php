@@ -15,7 +15,7 @@ class UserController extends Controller{
 
   public function show($user_id){
     $user=User::find($user_id);
-    $user_articles= $user->articles()->orderBy('id', 'desc')->get();
+    $user_articles= $user->articles()->where('parent_id', null)->orderBy('id', 'DESC')->get();
     $own= \Auth::user();
 
     //フォロー中のユーザーの数をカウント
