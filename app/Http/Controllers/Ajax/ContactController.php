@@ -73,42 +73,4 @@ class ContactController extends Controller
             'result' => $goodCount
         ]);
     }
-
-
-
-    public function replyGoodFunction(Request $request)
-    {
-      $reply_id=$request->input('reply_id');
-      $own=\Auth::user();
-      $reply=Reply::find($reply_id);
-
-      $goods=unserialize($reply->good);
-      if(isset($goods["$own->id"])){
-        //いいねしていたらいいねを取り消す
-        unset($goods["$own->id"]);
-      }else{
-        //いいねしていなかったらいいねする
-        $goods["$own->id"]=$own->id;
-      }
-      $reply->good=serialize($goods);
-      $reply->save();
-
-      $goodCount=count($goods);
-
-      return response()->json([
-            'result' => $goodCount
-        ]);
-    }
-
-
-    public function replyGoodCount(Request $request)
-    {
-      $reply_id=$request->input('reply_id');
-      $reply=Reply::find($reply_id);
-
-      $goodCount=count(unserialize($reply->good));
-      return response()->json([
-            'result' => $goodCount
-      ]);
-    }
 }
