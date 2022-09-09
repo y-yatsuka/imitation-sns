@@ -4,7 +4,7 @@ $(document).ready(function () {
   $('#goodButton').click(function(){
     button=$('#goodButton');
     $.ajax({
-         url:'/article/good',
+         url:'https://hamming-code.sakura.ne.jp/imitation-sns/public/article/good',
          type:'POST',
          headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
          data:{
@@ -14,7 +14,7 @@ $(document).ready(function () {
      // Ajaxリクエストが成功した時発動
      .done( (data) => {
        //いいねの件数とボタンの文字を変更
-       $('#goodCount').html('いいね!:'+data.result+'件');
+       $('#goodCount').html('いいね!: '+data.result+'件');
        if(button.html().trim()=='いいね!'){
          button.html('いいねを取り消す');
        }else{
@@ -33,7 +33,7 @@ $(document).ready(function () {
 //いいねの件数をリアルタイムで表示する関数
 function goodCount(){
   $.ajax({
-       url:'/article/good/count',
+       url:'https://hamming-code.sakura.ne.jp/imitation-sns/public/article/good/count',
        type:'POST',
        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
        data:{
