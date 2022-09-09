@@ -95,8 +95,8 @@ class ArticleController extends Controller
 
         $favorite = false; //いいねしているか否か
         if($own){
-          foreach ($own->favoriteArticles()->get() as $article){
-              if($article->id == $id){
+          foreach ($own->favoriteArticles()->get() as $fArticle){
+              if($fArticle->id == $id){
                   $favorite = true;
                   break;
               }
