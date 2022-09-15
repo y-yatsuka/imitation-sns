@@ -7,8 +7,12 @@
   }
 
 </style>
+
+@section('script')
+    <script defer src="{{ asset('js/goodFunction.js')}}"></script>
+@endsection
+
 @section('content')
-<script src="{{ asset('js/goodFunction.js')}}"></script>
 @if($parent)
     <div class="article-show">
         <div class="inner">

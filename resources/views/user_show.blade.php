@@ -1,7 +1,10 @@
 @extends('layouts.app')
-@section('content')
-<script src="{{ asset('js/followFunction.js')}}"></script>
 
+@section('script')
+    <script defer src="{{ asset('js/followFunction.js')}}"></script>
+@endsection
+
+@section('content')
 @if($user->image!=null)
 <img src="{{ asset('storage/profile_images/'.$user->id.'.jpeg') }}" class="round-image large" />
 @else
